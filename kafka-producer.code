@@ -28,17 +28,7 @@ DemoCallback implements Callback {
 kafkaProducer.send(record, new DemoCallback());
 
 // 序列化器
-DemoSerializer implemets Serializer<Model> {
+DemoSerializer implemets Serializer<Model>
 
-    public void confiure(Map configs, boolean isKey) {
-        // TODO
-    }
-
-    public bytep[] serialize(String topic, Demo data) {
-        // TODO
-    }
-
-    public void close() {
-        
-    }
-}
+// 分区器
+DemoPartitioner implements Partitioner
