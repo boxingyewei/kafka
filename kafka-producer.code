@@ -1,0 +1,44 @@
+// 同步发送
+Properties properties = new Properties();
+properties.put("bootstrap.servers", "localhost:9092");
+properties.put("key.serializer", "xxx");
+properties.put("value.serializer", "xxx");
+KafkaProducer kafkaProducer = new KafkaProducer<String, String>(properties);
+
+// ProducerRecord(topic, partition, key, value)
+// ProducerRecord(topic, key, value)
+// ProducerRecord(topic, value)
+ProducerRecord<String, String> record = new ProducerRecord<>("topic", "key", "value");
+
+// 不关注是否发送成功
+kafkaProducer.send(record);
+
+// 同步发送
+Future future = kafkaProducer.send(record).get();
+RecordMetadata metadata = future.get();
+
+// 异步回调发送
+DemoCallback implements Callback {
+
+    public void onCompletion(RecordMetadata metadata, Exception e) {
+        // TODO
+    }
+
+}
+kafkaProducer.send(record, new DemoCallback());
+
+// 序列化器
+DemoSerializer implemets Serializer<Model> {
+
+    public void confiure(Map configs, boolean isKey) {
+        // TODO
+    }
+
+    public bytep[] serialize(String topic, Demo data) {
+        // TODO
+    }
+
+    public void close() {
+        
+    }
+}
