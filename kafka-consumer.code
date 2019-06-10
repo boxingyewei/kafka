@@ -1,0 +1,34 @@
+Properties properties = new Properties();
+properties.put("bootstrap.servers", "xxx");
+properties.put("group.id", "xxx");
+properties.put("key.deserializer", "xxxx");
+properties.put("value.deserializer", "xxx");
+
+KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
+
+// 订阅主题
+consumer.subscribe(Collections.singletonList("topic"));
+consumer.subscribe("正则表达式topic");
+
+// 轮询
+try {
+    while(true) {
+        ConsumerRecords<String, String> records = consumer.poll(nums);
+        for (ConsumerRecord<String, String> record : records) {
+            // TODO
+        }
+    }
+} finally {
+    consumer.close();
+}
+
+// 指定从某个偏移量读取
+consumer.seek(partition, offset);
+
+// 手动提交偏移量, 阻塞的方式
+consumer.commitSync(); // 默认是提交poll最新的偏移量
+consumer.commitSync(offset);
+
+// 异步提交
+consumer.commitAsync();
+consumer.commitAsync(new Callback());
